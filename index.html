@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<title>MuseumQuiz</title>
+
+		<script type='text/javascript' src='js/jquery-1.9.1.js'></script>
+		<script type='text/javascript' src='js/jquery-ui-1.10.3.custom.js'></script>
+		
+		<script type='text/javascript' src='js/jquery.foggy.min.js'></script>		
+		<script type="text/javascript" src="js/selectToUISlider.jQuery.js"></script>
+
+		<link rel="stylesheet" href="css/redmond/jquery-ui-1.7.1.custom.css" type="text/css" />
+		<link rel="Stylesheet" href="css/ui.slider.extras.css" type="text/css" />
+
+		<style type='text/css'>
+			body {font-family:"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif; }		
+		</style>		
+	</head>
+
+	<body>
+
+		<div id="container">
+			<div id="left">
+				<div id="top">
+					<div id="bars">											
+						<fieldset>
+							<label for="Epoch">Select an Epoch:</label>
+							<br />
+							<br />
+							<select name="epoch" id="epoch">
+								<option value="16th">16th century</option>
+								<option value="17th">17th century</option>
+								<option value="18th">18th century</option>								
+							</select>								
+
+							<br />
+							<br />
+							<br />
+
+							<label for="painter">Select a Painter:</label>
+							<br />
+							<br />
+							<select name="painter" id="painter">
+								<option value="vermeer">Vermeer</option>
+								<option value="gogh">Gogh</option>
+								<option value="matisse">Matisse</option>
+							</select>								
+
+							<br />
+							<br />
+							<br />
+							
+							<label for="context">Select the relevant historical context:</label>
+							<br />
+							<br />
+							<select name="context" id="context">
+								<option value="renaissance">Renaissance</option>
+								<option value="baroque">Baroque</option>
+								<option value="medieval">Medieval</option>
+							</select>																								
+						</fieldset>
+					</div>
+				</div>
+				<div id="bottom">
+					<img id="painting" src="painting.jpg" />
+				</div>				
+			</div>
+			<div id="right">
+			</div>			
+		</div>
+
+		<script type="text/javascript">
+			$('select#epoch').selectToUISlider().hide();
+			$('select#painter').selectToUISlider().hide();
+			$('select#context').selectToUISlider().hide();
+
+			$(document).ready(function(){
+				$("#painting").foggy({
+					blurRadius: 0,          // In pixels.
+					opacity: 1,           // Falls back to a filter for IE.
+					cssFilterSupport: true  // Use "-webkit-filter" where available.
+				}); 		
+			});
+		</script>
+
+	</body>
+</html>
