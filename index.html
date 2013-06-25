@@ -14,7 +14,24 @@
 		<link rel="Stylesheet" href="css/ui.slider.extras.css" type="text/css" />
 
 		<style type='text/css'>
-			body {font-family:"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif; }		
+			body {font-family:"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif; }
+			
+			div#container {
+				margin-left: 50px;
+				margin-top: 50px;
+			}
+
+			div#left { 
+				width: 700px; 
+			}
+			
+			div#bottom {
+				text-align: center;
+			}
+
+			fieldset {
+    			border: 0;
+			}		
 		</style>		
 	</head>
 
@@ -24,7 +41,7 @@
 			<div id="left">
 				<div id="top">
 					<div id="bars">											
-						<fieldset>
+						<fieldset border=0>
 							<label for="Epoch">Select an Epoch:</label>
 							<br />
 							<br />
@@ -58,12 +75,19 @@
 								<option value="renaissance">Renaissance</option>
 								<option value="baroque">Baroque</option>
 								<option value="medieval">Medieval</option>
-							</select>																								
+							</select>
+
+
+							<br />
+							<br />
+							<br />																															
 						</fieldset>
 					</div>
 				</div>
 				<div id="bottom">
-					<img id="painting" src="painting.jpg" />
+					<div id="painting_container">
+						<img id="painting" src="painting.jpg" />
+					</div>					
 				</div>				
 			</div>
 			<div id="right">
