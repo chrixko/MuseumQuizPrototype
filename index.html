@@ -10,6 +10,8 @@
 		<script type='text/javascript' src='js/jquery.foggy.min.js'></script>		
 		<script type="text/javascript" src="js/selectToUISlider.jQuery.js"></script>
 
+		<script type="text/javascript" src="js/app.js"></script>
+
 		<link rel="stylesheet" href="css/redmond/jquery-ui-1.7.1.custom.css" type="text/css" />
 		<link rel="Stylesheet" href="css/ui.slider.extras.css" type="text/css" />
 
@@ -38,6 +40,27 @@
 				text-align: center;
 			}
 
+			div#categories {
+				padding-top: 300px;
+			}
+
+			.category {
+				margin-top: 50px;
+			}
+
+			.word_cloud {
+				margin-top: 10px;
+			}
+
+			.word {
+				float:	left;
+				margin-left: 20px;
+			}
+
+			.selected {
+				color: red;				
+			}
+
 			fieldset {
     			border: 0;
 			}		
@@ -53,10 +76,8 @@
 							<label for="Epoch">Select an Epoch:</label>
 							<br />
 							<br />
-							<select name="epoch" id="epoch">
-								<option value="16th">16th century</option>
-								<option value="17th">17th century</option>
-								<option value="18th">18th century</option>								
+							<select name="epoch" id="select_epoch">
+								<option value=""></option>
 							</select>								
 
 							<br />
@@ -66,10 +87,8 @@
 							<label for="painter">Select a Painter:</label>
 							<br />
 							<br />
-							<select name="painter" id="painter">
-								<option value="vermeer">Vermeer</option>
-								<option value="gogh">Gogh</option>
-								<option value="matisse">Matisse</option>
+							<select name="painter" id="select_painter">
+								<option value=""></option>
 							</select>								
 
 							<br />
@@ -79,10 +98,8 @@
 							<label for="context">Select the relevant historical context:</label>
 							<br />
 							<br />
-							<select name="context" id="context">
-								<option value="renaissance">Renaissance</option>
-								<option value="baroque">Baroque</option>
-								<option value="medieval">Medieval</option>
+							<select name="context" id="select_context">
+								<option value=""></option>
 							</select>
 
 
@@ -100,27 +117,79 @@
 			</div>
 			<div id="right">
 				<div id="categories">
-					<div id="category_one">
-						Epoch:
+					<div class="category" id="epoch">
+						<div>
+							<b>Epoch:</b>
+						</div>
+
+						<div class="word_cloud">
+							<div class="word">
+								17th
+							</div>
+
+							<div class="word">
+								18th
+							</div>
+
+							<div class="word">
+								19th
+							</div>														
+						</div>
+
 					</div>	
-					<div id="category_two">
-						Painter:
+					<div class="category" id="painter">
+						<div>
+							<b>Painter:</b>
+						</div>	
+
+						<div class="word_cloud">
+							<div class="word">
+								vermeer
+							</div>
+
+							<div class="word">
+								gogh
+							</div>
+
+							<div class="word">
+								matisse
+							</div>														
+						</div>											
 					</div>	
-					<div id="category_three">
-						Context:
+					<div class="category" id="context">
+						<div>
+							<b>Context:</b>
+						</div>						
 					</div>																		
 				</div>				
 			</div>			
 		</div>
 
 		<script type="text/javascript">
-			$('select#epoch').selectToUISlider().hide();
-			$('select#painter').selectToUISlider().hide();
-			$('select#context').selectToUISlider().hide();
+			$('select#select_epoch').selectToUISlider().hide();
+			$('select#select_painter').selectToUISlider().hide();
+			$('select#select_context').selectToUISlider().hide();			
+
+			$('.word').click(function() {
+				var word = $(this).text();
+				var category = $(this).parent().parent().attr('id');				
+
+				if($.inArray(word, app.getCollectionByCategory(category)) == -1) {					
+					$(this).addClass("selected");
+					app.addWord(category, word);
+				} else {
+					$(this).removeClass("selected");
+					app.removeWord(category, word);
+				}
+				
+				app.updateSelector(category);
+			});
+
+
 
 			$(document).ready(function(){
 				$("#painting").foggy({
-					blurRadius: 0,          // In pixels.
+					blurRadius: 20,          // In pixels.
 					opacity: 1,           // Falls back to a filter for IE.
 					cssFilterSupport: true  // Use "-webkit-filter" where available.
 				}); 		
