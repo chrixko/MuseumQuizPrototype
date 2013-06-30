@@ -7,18 +7,35 @@ var app = new function() {
 	this.selectedPainter = -1;
 	this.selectedContext = -1;
 
+	this.correctEpoch = '17th century';
+	this.correctPainter = 'Johannes Vermeer';
+	this.correctContext = 'Dutch Golden Age';
 	//this.epochSlider = null;
 
 	this.getBlurRadius = function() {
-		if(this.collectedEpochs.length < 3 || this.collectedPainters.length < 3 || this.collectedContexts.length < 3) {
-			return 20;
+		var radius = 20;
+
+		if(!this.getScrollbarsEnabled()) {
+			return radius;
 		}
 
-		return 0;
-	};
+		if(this.checkEpoch(this.selectedEpoch)) {
+			radius -= 8;
+		}
+
+		if(this.checkPainter(this.selectedPainter)) {
+			radius -= 4;
+		}
+
+		if(this.checkContext(this.selectedContext)) {
+			radius -= 8;
+		}		
+
+		return radius;
+	}
 
 	this.getScrollbarsEnabled = function () {
-		return (this.collectedEpochs.length >= 3 && this.collectedPainters.length >= 3 && this.collectedContexts.length >= 3);
+		return (this.collectedEpochs.length == 3 && this.collectedPainters.length == 5 && this.collectedContexts.length == 4);
 	}
 
 	this.initSliders = function() {			
@@ -27,6 +44,7 @@ var app = new function() {
 		    sliderOptions: {
 		        change: function(e, ui) { 
 		            self.checkEpoch(ui.value);
+		            self.blurImage();
 		        }
 		    }
 		}).hide();
@@ -35,6 +53,7 @@ var app = new function() {
 		    sliderOptions: {
 		        change: function(e, ui) { 
 		            self.checkPainter(ui.value);
+		            self.blurImage();
 		        }
 		    }
 		}).hide();
@@ -43,32 +62,89 @@ var app = new function() {
 		    sliderOptions: {
 		        change: function(e, ui) { 
 		            self.checkContext(ui.value);
+		            self.blurImage();
 		        }
 		    }
 		}).hide();
 
 		if(this.getScrollbarsEnabled()) {
-			$('.ui-slider').slider('enable');			
+			$('.ui-slider').slider('enable');
+			this.checkEpoch(0);
+			this.checkPainter(0);
+			this.checkContext(0);
 		} else {
 			$('.ui-slider').slider('disable');
 		}
 	}
 
 	this.checkEpoch = function(value) {
-		this.selectedEpoch = value;
+		this.selectedEpoch = value;			
+		$('div#indicators_epoch').html('');		
+
+		var word = this.collectedEpochs[this.selectedEpoch];
+		var correctAnswer = (word == this.correctEpoch);
+
+		var rightClass = correctAnswer == 1 ? 'active' : 'inactive';
+		var wrongClass = rightClass == 'active' ? 'inactive' : 'active';
+
+		$('div#indicators_epoch').prepend('<img class="indicator_' + wrongClass + '" width="24px" src="images/wrong.png" />')
+		$('div#indicators_epoch').prepend('<img class="indicator_' + rightClass + '" width="24px" src="images/right.png" />')
+
+		return correctAnswer;
 	}
 
 	this.checkPainter = function(value) {
 		this.selectedPainter = value;
+		$('div#indicators_painter').html('');		
+
+		var word = this.collectedPainters[this.selectedPainter];
+		var correctAnswer = (word == this.correctPainter);
+
+		var rightClass = correctAnswer == 1 ? 'active' : 'inactive';
+		var wrongClass = rightClass == 'active' ? 'inactive' : 'active';
+
+		$('div#indicators_painter').prepend('<img class="indicator_' + wrongClass + '" width="24px" src="images/wrong.png" />')
+		$('div#indicators_painter').prepend('<img class="indicator_' + rightClass + '" width="24px" src="images/right.png" />')		
+
+		return correctAnswer;
 	}
 
 	this.checkContext = function(value) {
 		this.selectedContext = value;
+		$('div#indicators_context').html('');		
+
+		var word = this.collectedContexts[this.selectedContext];
+		var correctAnswer = (word == this.correctContext);
+
+		var rightClass = correctAnswer == 1 ? 'active' : 'inactive';
+		var wrongClass = rightClass == 'active' ? 'inactive' : 'active';
+
+		$('div#indicators_context').prepend('<img class="indicator_' + wrongClass + '" width="24px" src="images/wrong.png" />')
+		$('div#indicators_context').prepend('<img class="indicator_' + rightClass + '" width="24px" src="images/right.png" />')				
+
+		return correctAnswer;
 	}	
+
+	this.blurImage = function() {
+		$("#painting").foggy({
+			blurRadius: this.getBlurRadius(),          // In pixels.
+			opacity: 1,           // Falls back to a filter for IE.
+			cssFilterSupport: true  // Use "-webkit-filter" where available.
+		}); 		
+	}
 
 
 	this.addWord = function(category, word) {
-		this.getCollectionByCategory(category).push(word);		
+		var collection = this.getCollectionByCategory(category);
+		var max = this.getMaxItemsByCategory(category);
+
+		if(collection.length >= max) {
+			return false;
+		}
+
+		collection.push(word);
+
+		return true;		
 	}
 
 	this.removeWord = function(category, word) {
@@ -77,8 +153,6 @@ var app = new function() {
 		var index = collection.indexOf(word);
 		collection.splice(index, 1);
 	}
-
-
 
 	this.updateSelector = function(category) {		
 		var select = $('select#select_' + category);
@@ -99,24 +173,39 @@ var app = new function() {
 		$('.ui-slider').remove();				
 
 		this.initSliders();
-
-		//this.epochSlider.slider("refresh");
 	}
 
 	this.getCollectionByCategory = function(category) {
 		switch(category)
 		{
-		case 'epoch':
-			return this.collectedEpochs;
-			break;
-		case 'painter':
-			return this.collectedPainters;
-			break;
-		case 'context':
-			return this.collectedContexts;
-			break;		  
-		default:
-			return null;
+			case 'epoch':
+				return this.collectedEpochs;
+				break;
+			case 'painter':
+				return this.collectedPainters;
+				break;
+			case 'context':
+				return this.collectedContexts;
+				break;		  
+			default:
+				return null;
 		}
 	}
+
+	this.getMaxItemsByCategory = function(category) {
+		switch(category)
+		{
+			case 'epoch':
+				return 3;
+				break;
+			case 'painter':
+				return 5;
+				break;
+			case 'context':
+				return 4;
+				break;		  
+			default:
+				return null;
+		}
+	}	
 }

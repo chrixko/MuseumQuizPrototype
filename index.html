@@ -28,11 +28,11 @@
 
 			div#left { 
 				float: left;
-				width: 45%; 
+				width: 70%; 
 			}
 
 			div#right {
-				width: 45%;
+				width: 30%;
 				float: right;				
 			}
 			
@@ -44,12 +44,23 @@
 				padding-top: 300px;
 			}
 
+			div#painting_container {
+				position: absolute;
+				width: 546px;
+				height: 610px;
+				margin-left: 250px;
+			}
+
+			img#painting {
+				margin-top: 92px;
+			}
+
 			.indicators {
 				float: right;
 			}
 
 			.category {
-				margin-top: 50px;
+				margin-top: 120px;
 			}
 
 			.word_cloud {
@@ -58,11 +69,13 @@
 
 			.word {
 				float:	left;
-				margin-left: 20px;
+				margin: 5px 5px 5px 20px;
+				cursor: pointer;
 			}
 
 			.selected {
-				color: red;				
+				background-color: gray;
+				font-weight: bold;				
 			}
 
 			.indicators {
@@ -104,7 +117,7 @@
 									</select>								
 								</div>
 
-								<div class="indicators">
+								<div id="indicators_epoch" class="indicators">
 									<img class="indicator_inactive" width="24px" src="images/right.png" />
 									<img class="indicator_inactive" width="24px" src="images/wrong.png" />
 								</div>									
@@ -126,7 +139,7 @@
 									</select>																	
 								</div>
 
-								<div class="indicators">
+								<div id="indicators_painter" class="indicators">
 									<img class="indicator_inactive" width="24px" src="images/right.png" />
 									<img class="indicator_inactive" width="24px" src="images/wrong.png" />
 								</div>								
@@ -135,8 +148,8 @@
 
 							<br />
 							<br />
-							<br />
-							
+							<br />							
+
 							<div class="category_selector_container">
 								<div class="selector">
 									<label for="context">Select the relevant historical context:</label>
@@ -147,7 +160,7 @@
 									</select>
 								</div>							
 
-								<div class="indicators">
+								<div id="indicators_context" class="indicators">
 									<img class="indicator_inactive" width="24px" src="images/right.png" />
 									<img class="indicator_inactive" width="24px" src="images/wrong.png" />
 								</div>								
@@ -160,8 +173,9 @@
 					</div>
 				</div>
 				<div id="bottom">
-					<div id="painting_container">
-						<img id="painting" src="painting.jpg" />
+					<div id="painting_container">						
+					  <img src="images/frame.png" style="position:absolute; z-index:2; top:0; left:0;"/>
+					  <img id="painting" src="images/painting.png" />	
 					</div>					
 				</div>				
 			</div>
@@ -169,51 +183,79 @@
 				<div id="categories">
 					<div class="category" id="epoch">
 						<div>
-							<b>Epoch:</b>
+							<b>Epoch: (select 3)</b>
 						</div>
 
 						<div class="word_cloud">
 							<div class="word">
-								17th
+								16th century
 							</div>
 
 							<div class="word">
-								18th
+								17th century
 							</div>
 
 							<div class="word">
-								19th
+								18th century
+							</div>
+
+							<div class="word">
+								19th century
 							</div>														
+
+							<div class="word">
+								20th century
+							</div>													
 						</div>
 
 					</div>	
 					<div class="category" id="painter">
 						<div>
-							<b>Painter:</b>
+							<b>Painter: (select 5)</b>
 						</div>	
 
 						<div class="word_cloud">
 							<div class="word">
-								vermeer
+								Johannes Vermeer
 							</div>
 
 							<div class="word">
-								gogh
+								Vincent Van Gogh
 							</div>
 
 							<div class="word">
-								matisse
-							</div>														
+								Rembrandt
+							</div>	
+
+							<div class="word">
+								Diego Velasquez
+							</div>	
+
+							<div class="word">
+								Peter Paul Rubbens
+							</div>	
+
+							<div class="word">
+								René Magritte
+							</div>	
+
+							<div class="word">
+								Marc Chagall
+							</div>	
+
+							<div class="word">
+								Henri Matisse
+							</div>																													
 						</div>											
 					</div>	
 					<div class="category" id="context">
 						<div>
-							<b>Context:</b>
+							<b>Context: (select 4)</b>
 						</div>
 
 						<div class="word_cloud">
 							<div class="word">
-								Age of Enlightment								
+								Renaissance period								
 							</div>
 
 							<div class="word">
@@ -221,8 +263,20 @@
 							</div>
 
 							<div class="word">
-								Renaissance period								
+								Age of Enlightment								
 							</div>														
+
+							<div class="word">
+								Medieval period								
+							</div>
+
+							<div class="word">
+								Dutch Golden Age								
+							</div>
+
+							<div class="word">
+								Post-modernism period								
+							</div>																					
 						</div>														
 					</div>																		
 				</div>				
@@ -238,10 +292,10 @@
 				var word = $(this).text().trim();
 				var category = $(this).parent().parent().attr('id');				
 
-				if($.inArray(word, app.getCollectionByCategory(category)) == -1) {					
-					$(this).addClass("selected");
-					$(this).addClass("selected");
-					app.addWord(category, word);
+				if($.inArray(word, app.getCollectionByCategory(category)) == -1) {	
+					if(app.addWord(category, word)) {
+						$(this).addClass("selected");	
+					}
 				} else {
 					$(this).removeClass("selected");
 					app.removeWord(category, word);
@@ -253,11 +307,7 @@
 
 
 			$(document).ready(function(){
-				$("#painting").foggy({
-					blurRadius: 20,          // In pixels.
-					opacity: 1,           // Falls back to a filter for IE.
-					cssFilterSupport: true  // Use "-webkit-filter" where available.
-				}); 		
+				app.blurImage();		
 			});
 		</script>
 
