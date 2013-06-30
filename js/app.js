@@ -22,13 +22,15 @@ var app = new function() {
 	this.removeWord = function(category, word) {
 		var collection = this.getCollectionByCategory(category);
 
-		var index = collection.indexOf(epoch);
+		var index = collection.indexOf(word);
 		collection.splice(index, 1);
 	}
 
 	this.updateSelector = function(category) {		
 		var select = $('select#select_' + category);
 		var collection = this.getCollectionByCategory(category);		
+
+		collection.sort();
 
 		select.find('option').remove().end();
 		if(collection.length == 0) {

@@ -44,6 +44,10 @@
 				padding-top: 300px;
 			}
 
+			.indicators {
+				float: right;
+			}
+
 			.category {
 				margin-top: 50px;
 			}
@@ -61,6 +65,23 @@
 				color: red;				
 			}
 
+			.indicators {
+				margin-top: -20px;
+				margin-right: 10px;
+			}
+
+			.indicator_inactive {
+				opacity:0.3;
+			}
+
+			.indicator_active {
+				opacity:1;
+			}
+
+			.selector {
+				width: 89%;
+			}
+
 			fieldset {
     			border: 0;
 			}		
@@ -73,35 +94,64 @@
 				<div id="top">
 					<div id="bars">											
 						<fieldset border=0>
-							<label for="Epoch">Select an Epoch:</label>
-							<br />
-							<br />
-							<select name="epoch" id="select_epoch">
-								<option value=""></option>
-							</select>								
+							<div class="category_selector_container">
+								<div class="selector">
+									<label for="Epoch">Select an Epoch:</label>
+									<br />
+									<br />							
+									<select name="epoch" id="select_epoch">
+										<option value=""></option>
+									</select>								
+								</div>
+
+								<div class="indicators">
+									<img class="indicator_inactive" width="24px" src="images/right.png" />
+									<img class="indicator_inactive" width="24px" src="images/wrong.png" />
+								</div>									
+							</div>
+
 
 							<br />
 							<br />
 							<br />
 
-							<label for="painter">Select a Painter:</label>
-							<br />
-							<br />
-							<select name="painter" id="select_painter">
-								<option value=""></option>
-							</select>								
+
+							<div class="category_selector_container">
+								<div class="selector">
+									<label for="painter">Select a Painter:</label>
+									<br />
+									<br />
+									<select name="painter" id="select_painter">
+										<option value=""></option>
+									</select>																	
+								</div>
+
+								<div class="indicators">
+									<img class="indicator_inactive" width="24px" src="images/right.png" />
+									<img class="indicator_inactive" width="24px" src="images/wrong.png" />
+								</div>								
+							</div>								
+
 
 							<br />
 							<br />
 							<br />
 							
-							<label for="context">Select the relevant historical context:</label>
-							<br />
-							<br />
-							<select name="context" id="select_context">
-								<option value=""></option>
-							</select>
+							<div class="category_selector_container">
+								<div class="selector">
+									<label for="context">Select the relevant historical context:</label>
+									<br />
+									<br />
+									<select name="context" id="select_context">
+										<option value=""></option>
+									</select>
+								</div>							
 
+								<div class="indicators">
+									<img class="indicator_inactive" width="24px" src="images/right.png" />
+									<img class="indicator_inactive" width="24px" src="images/wrong.png" />
+								</div>								
+							</div>												
 
 							<br />
 							<br />
@@ -159,13 +209,29 @@
 					<div class="category" id="context">
 						<div>
 							<b>Context:</b>
-						</div>						
+						</div>
+
+						<div class="word_cloud">
+							<div class="word">
+								Age of Enlightment								
+							</div>
+
+							<div class="word">
+								Baroque movement
+							</div>
+
+							<div class="word">
+								Renaissance period								
+							</div>														
+						</div>														
 					</div>																		
 				</div>				
 			</div>			
 		</div>
 
 		<script type="text/javascript">
+			//TODO sort clouds by name			
+
 			$('select#select_epoch').selectToUISlider().hide();
 			$('select#select_painter').selectToUISlider().hide();
 			$('select#select_context').selectToUISlider().hide();			
@@ -175,6 +241,7 @@
 				var category = $(this).parent().parent().attr('id');				
 
 				if($.inArray(word, app.getCollectionByCategory(category)) == -1) {					
+					$(this).addClass("selected");
 					$(this).addClass("selected");
 					app.addWord(category, word);
 				} else {
