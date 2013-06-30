@@ -23,16 +23,16 @@
 			
 			div#container {
 				margin-left: 50px;
-				margin-top: 50px;
+				margin-top: 10px;
 			}
 
 			div#left { 
 				float: left;
-				width: 70%; 
+				width: 65%; 
 			}
 
 			div#right {
-				width: 30%;
+				width: 35%;
 				float: right;				
 			}
 			
@@ -40,7 +40,7 @@
 				text-align: center;
 			}
 
-			div#categories {
+			div#categories {				
 				padding-top: 300px;
 			}
 
@@ -53,7 +53,7 @@
 
 			img#painting {
 				margin-top: 92px;
-			}
+			}			
 
 			.indicators {
 				float: right;
@@ -74,8 +74,12 @@
 			}
 
 			.selected {
+				background-color: gray;			
+			}
+
+			.word:hover {
 				background-color: gray;
-				font-weight: bold;				
+				
 			}
 
 			.indicators {
@@ -109,7 +113,7 @@
 						<fieldset border=0>
 							<div class="category_selector_container">
 								<div class="selector">
-									<label for="Epoch">Select an Epoch:</label>
+									<label for="Epoch"><b>Select an epoch:</b></label>
 									<br />
 									<br />							
 									<select name="epoch" id="select_epoch">
@@ -131,7 +135,7 @@
 
 							<div class="category_selector_container">
 								<div class="selector">
-									<label for="painter">Select a Painter:</label>
+									<label for="painter"><b>Select a painter:</b></label>
 									<br />
 									<br />
 									<select name="painter" id="select_painter">
@@ -152,7 +156,7 @@
 
 							<div class="category_selector_container">
 								<div class="selector">
-									<label for="context">Select the relevant historical context:</label>
+									<label for="context"><b>Select the relevant historical context:</b></label>
 									<br />
 									<br />
 									<select name="context" id="select_context">
@@ -183,7 +187,7 @@
 				<div id="categories">
 					<div class="category" id="epoch">
 						<div>
-							<b>Epoch: (select 3)</b>
+							<b>- Epoch: (select 3)</b>
 						</div>
 
 						<div class="word_cloud">
@@ -211,7 +215,7 @@
 					</div>	
 					<div class="category" id="painter">
 						<div>
-							<b>Painter: (select 5)</b>
+							<b>- Painter: (select 5)</b>
 						</div>	
 
 						<div class="word_cloud">
@@ -250,7 +254,7 @@
 					</div>	
 					<div class="category" id="context">
 						<div>
-							<b>Context: (select 4)</b>
+							<b>- Context: (select 4)</b>
 						</div>
 
 						<div class="word_cloud">

@@ -72,6 +72,8 @@ var app = new function() {
 			this.checkEpoch(0);
 			this.checkPainter(0);
 			this.checkContext(0);
+
+			this.blurImage();
 		} else {
 			$('.ui-slider').slider('disable');
 		}
