@@ -156,7 +156,7 @@
 							<br />
 							<br />
 							<br />																															
-						</fieldset>
+						</fieldset>					
 					</div>
 				</div>
 				<div id="bottom">
@@ -230,14 +230,12 @@
 		</div>
 
 		<script type="text/javascript">
-			//TODO sort clouds by name			
+			//TODO sort clouds by name						
 
-			$('select#select_epoch').selectToUISlider().hide();
-			$('select#select_painter').selectToUISlider().hide();
-			$('select#select_context').selectToUISlider().hide();			
+			app.initSliders();
 
 			$('.word').click(function() {
-				var word = $(this).text();
+				var word = $(this).text().trim();
 				var category = $(this).parent().parent().attr('id');				
 
 				if($.inArray(word, app.getCollectionByCategory(category)) == -1) {					

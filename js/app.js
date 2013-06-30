@@ -7,13 +7,65 @@ var app = new function() {
 	this.selectedPainter = -1;
 	this.selectedContext = -1;
 
+	//this.epochSlider = null;
+
 	this.getBlurRadius = function() {
-		if(this.collectedEpochs.length < 3 || this.collectedEpochs.length < 3 || this.collectedEpochs.length < 3) {
+		if(this.collectedEpochs.length < 3 || this.collectedPainters.length < 3 || this.collectedContexts.length < 3) {
 			return 20;
 		}
 
 		return 0;
 	};
+
+	this.getScrollbarsEnabled = function () {
+		return (this.collectedEpochs.length >= 3 && this.collectedPainters.length >= 3 && this.collectedContexts.length >= 3);
+	}
+
+	this.initSliders = function() {			
+		var self = this;		
+		var epoch = $('select#select_epoch').selectToUISlider({
+		    sliderOptions: {
+		        change: function(e, ui) { 
+		            self.checkEpoch(ui.value);
+		        }
+		    }
+		}).hide();
+
+		var painter = $('select#select_painter').selectToUISlider({
+		    sliderOptions: {
+		        change: function(e, ui) { 
+		            self.checkPainter(ui.value);
+		        }
+		    }
+		}).hide();
+
+		var context = $('select#select_context').selectToUISlider({
+		    sliderOptions: {
+		        change: function(e, ui) { 
+		            self.checkContext(ui.value);
+		        }
+		    }
+		}).hide();
+
+		if(this.getScrollbarsEnabled()) {
+			$('.ui-slider').slider('enable');			
+		} else {
+			$('.ui-slider').slider('disable');
+		}
+	}
+
+	this.checkEpoch = function(value) {
+		this.selectedEpoch = value;
+	}
+
+	this.checkPainter = function(value) {
+		this.selectedPainter = value;
+	}
+
+	this.checkContext = function(value) {
+		this.selectedContext = value;
+	}	
+
 
 	this.addWord = function(category, word) {
 		this.getCollectionByCategory(category).push(word);		
@@ -25,6 +77,8 @@ var app = new function() {
 		var index = collection.indexOf(word);
 		collection.splice(index, 1);
 	}
+
+
 
 	this.updateSelector = function(category) {		
 		var select = $('select#select_' + category);
@@ -44,9 +98,9 @@ var app = new function() {
 
 		$('.ui-slider').remove();				
 
-		$('select#select_epoch').selectToUISlider().hide();
-		$('select#select_painter').selectToUISlider().hide();
-		$('select#select_context').selectToUISlider().hide();	
+		this.initSliders();
+
+		//this.epochSlider.slider("refresh");
 	}
 
 	this.getCollectionByCategory = function(category) {
