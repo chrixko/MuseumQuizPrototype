@@ -130,8 +130,7 @@ var app = new function() {
 	this.blurImage = function() {
 		$("#painting").foggy({
 			blurRadius: this.getBlurRadius(),          // In pixels.
-			opacity: 1,           // Falls back to a filter for IE.
-			cssFilterSupport: true  // Use "-webkit-filter" where available.
+			opacity: 1,           // Falls back to a filter for IE.			
 		}); 		
 	}
 
@@ -175,6 +174,33 @@ var app = new function() {
 		$('.ui-slider').remove();				
 
 		this.initSliders();
+
+		var epoch_count = this.getMaxItemsByCategory('epoch') - this.collectedEpochs.length;
+		$('#epoch_word_count').html('<b>- Epoch: (' + epoch_count +' left)</b>');
+		
+		if(epoch_count == 0) {			
+			$('#epoch_word_count').addClass('green');
+		} else {
+			$('#epoch_word_count').removeClass('green');
+		}
+
+		var painter_count = this.getMaxItemsByCategory('painter') - this.collectedPainters.length;
+		$('#painter_word_count').html('<b>- Painter: (' + painter_count +' left)</b>');
+
+		if(painter_count == 0) {			
+			$('#painter_word_count').addClass('green');
+		} else {
+			$('#painter_word_count').removeClass('green');
+		}
+
+		var context_count = this.getMaxItemsByCategory('context') - this.collectedContexts.length;
+		$('#context_word_count').html('<b>- Context: (' + context_count +' left)</b>');
+
+		if(context_count == 0) {			
+			$('#context_word_count').addClass('green');
+		} else {
+			$('#context_word_count').removeClass('green');
+		}		
 	}
 
 	this.getCollectionByCategory = function(category) {

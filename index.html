@@ -98,6 +98,14 @@
 				width: 89%;
 			}
 
+			.green {
+				color: green !important;
+			}
+
+			.word_count {
+				color: red;
+			}
+
 			fieldset {
     			border: 0;
 			}		
@@ -177,7 +185,7 @@
 				</div>
 				<div id="bottom">
 					<div id="painting_container">						
-					  <img src="images/frame.png" style="position:absolute; z-index:2; top:0; left:0;"/>
+					  <img src="images/frame.png" style="position:absolute; top:0; left:0;"/>
 					  <img id="painting" src="images/painting.png" />	
 					</div>					
 				</div>				
@@ -185,7 +193,7 @@
 			<div id="right">
 				<div id="categories">
 					<div class="category" id="epoch">
-						<div>
+						<div id="epoch_word_count" class="word_count">
 							<b>- Epoch: (select 3)</b>
 						</div>
 
@@ -213,7 +221,7 @@
 
 					</div>	
 					<div class="category" id="painter">
-						<div>
+						<div id="painter_word_count" class="word_count">
 							<b>- Painter: (select 5)</b>
 						</div>	
 
@@ -252,7 +260,7 @@
 						</div>											
 					</div>	
 					<div class="category" id="context">
-						<div>
+						<div id="context_word_count" class="word_count">
 							<b>- Context: (select 4)</b>
 						</div>
 
